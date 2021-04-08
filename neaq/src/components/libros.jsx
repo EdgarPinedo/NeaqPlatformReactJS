@@ -3,7 +3,8 @@ import {galery, store} from '../dataBase'
 import {Link} from 'react-router-dom'
 
 const Libros = () => {
-
+    const [edicion, setEdicion] = useState(null)
+    const [idLibro, setIdLibro] = useState('')
     const [nombreLib, setNombreLib] = useState('')
     const [precioLib, setPrecioLib] = useState('')
     const [cantidadLib, setCantidadLib] = useState('')
@@ -26,6 +27,8 @@ const Libros = () => {
             setError('EL campo "Nombre" esta vacío')
         }else if(!precioLib.trim()) {
             setError('El campo "Precio" esta vacío')
+        }else if(!cantidadLib.trim()) {
+            setError('El campo "Cantidad" esta vacío')
         }else{
             const libro = {
                 nombre:nombreLib,
@@ -33,18 +36,19 @@ const Libros = () => {
                 cantidad:cantidadLib
             }
             try{
-                const data = await store.collection('libros').add(libro)
+                await store.collection('libros').add(libro)
                 const {docs} = await store.collection('libros').get()
                 const listaLibros = docs.map(item => ({id:item.id, ...item.data()}))
                 setListaLibros(listaLibros)
             }catch(e){
                 console.log(e)
             }
+            const name1 = nombreLib
             setNombreLib('')
             setPrecioLib('')
             setCantidadLib('')
             try{
-                const newRef = await galery.ref().child(`images/${nombreLib}`).put(imagen)
+                await galery.ref().child(`images/${name1}`).put(imagen)
             }catch(e){}
         }
     }
@@ -53,10 +57,58 @@ const Libros = () => {
         setImagen(e.target.files[0])
     }
 
-    const BorrarLibro = async () => {
+    const BorrarLibro = async (id,nombre) => {
         try{
-
+            await store.collection('libros').doc(id).delete()
+            const {docs} = await store.collection('libros').get()
+            const listaLibros = docs.map(item => ({id:item.id, ...item.data()}))
+            setListaLibros(listaLibros)
+            await galery.ref(`images/${nombre}`).delete()
         }catch(e){}
+    }
+
+    const Actualizar = async (id) => {
+        try {
+            const modificar = await store.collection('libros').doc(id).get()
+            const {nombre, precio, cantidad} = modificar.data()
+            setNombreLib(nombre)
+            setPrecioLib(precio)
+            setCantidadLib(cantidad)
+            setIdLibro(id)
+            setEdicion(true)
+        }catch(e){}
+    }
+
+    const setActualizar = async (e) => {
+        e.preventDefault()
+        if(!nombreLib.trim()){
+            setError('EL campo "Nombre" esta vacío')
+        }else if(!precioLib.trim()) {
+            setError('El campo "Precio" esta vacío')
+        }else if(!cantidadLib.trim()) {
+        setError('El campo "Cantidad" esta vacío')
+        }
+        const libroUpdate = {
+            nombre:nombreLib,
+            precio:precioLib,
+            cantidad:cantidadLib
+        }
+        try{
+            await store.collection('libros').doc(idLibro).set(libroUpdate)
+            const {docs} = await store.collection('libros').get()
+            const listaLibros = docs.map(item => ({id:item.id, ...item.data()}))
+            setListaLibros(listaLibros)
+        }catch(e){}
+        const name2 = nombreLib
+        setNombreLib('')
+        setPrecioLib('')
+        setCantidadLib('')
+        setEdicion(false)
+        try
+        {
+            await galery.ref(`images/${name2}`).delete()
+            await galery.ref().child(`images/${name2}`).put(imagen)
+        }catch (e){}
     }
 
 
@@ -71,12 +123,17 @@ const Libros = () => {
                     </form>
                 </div>
                 <div className='row'>
-                    <div className='col ml-5'>
+                    <div className='col'>
                         <h2 className={'mt-4'}>Libros</h2>
                         <div className='row'>
-                            <div className='col'>
-                                <h4 className='mt-5'>Agregar libro</h4>
-                                <form onSubmit={setLibros} className='form-group mr-5'>
+                            <div className='col position-static'>
+                                {
+                                    edicion ?
+                                        (<h4 className='mt-5'>Actualizar libro</h4>)
+                                        :
+                                        (<h4 className='mt-5'>Agregar libro</h4>)
+                                }
+                                <form onSubmit={edicion ? setActualizar : setLibros} className='form-group mr-5'>
                                     <input
                                         value={nombreLib}
                                         onChange={(e) => {setNombreLib(e.target.value)}}
@@ -107,11 +164,24 @@ const Libros = () => {
                                             />
                                         </header>
                                     </div>
-                                    <input
-                                        type='submit'
-                                        value='Agregar'
-                                        className='btn btn-dark btn-block mt-3'
-                                    />
+                                    {
+                                        edicion ?
+                                            (
+                                                <input
+                                                    type='submit'
+                                                    value='Actualizar'
+                                                    className='btn btn-dark btn-block mt-3'
+                                                />
+                                            )
+                                            :
+                                            (
+                                                <input
+                                                    type='submit'
+                                                    value='Agregar'
+                                                    className='btn btn-dark btn-block mt-3'
+                                                />
+                                            )
+                                    }
                                 </form>
                                 {
                                     error ?
@@ -133,8 +203,9 @@ const Libros = () => {
                                         listaLibro.length !== 0 ?
                                             (
                                                 listaLibro.map(item => (
-                                                    <li className='list-group-item' key={item.id}>{item.nombre} {item.precio} {item.cantidad}
-                                                        <button className='btn btn-dark float-right'>Eliminar</button>
+                                                    <li className='list-group-item' key={item.id}> {item.nombre} {item.precio} {item.cantidad}
+                                                        <button onClick={(id,nombre)=>{BorrarLibro(item.id,item.nombre)}} className='btn btn-dark float-right'>Eliminar</button>
+                                                        <button onClick={(id)=>{Actualizar(item.id)}} className='btn btn-dark float-right mr-3'>Actualizar</button>
                                                     </li>
                                                 ))
                                             )
