@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {galery, store} from '../dataBase'
-import {Link} from 'react-router-dom'
+import { animateScroll as scroll} from 'react-scroll';
 
 const Libros = () => {
     const [edicion, setEdicion] = useState(null)
@@ -68,6 +68,7 @@ const Libros = () => {
     }
 
     const Actualizar = async (id) => {
+        scroll.scrollToTop()
         try {
             const modificar = await store.collection('libros').doc(id).get()
             const {nombre, precio, cantidad} = modificar.data()
@@ -86,7 +87,7 @@ const Libros = () => {
         }else if(!precioLib.trim()) {
             setError('El campo "Precio" esta vacío')
         }else if(!cantidadLib.trim()) {
-        setError('El campo "Cantidad" esta vacío')
+            setError('El campo "Cantidad" esta vacío')
         }
         const libroUpdate = {
             nombre:nombreLib,
@@ -115,18 +116,11 @@ const Libros = () => {
     return (
         <div className='mt-5'>
             <div className='container mt-5'>
-                <div align={'center'} className='form-group bg-dark'>
-                    <form className='form-group mr-auto'>
-                        <Link className='btn btn-dark mt-auto' to='/admin'>Libros</Link>
-                        <Link className='btn btn-dark mt-auto' to='/clientes'>Clientes</Link>
-                        <Link className='btn btn-dark mt-auto'>Registros</Link>
-                    </form>
-                </div>
                 <div className='row'>
                     <div className='col'>
-                        <h2 className={'mt-4'}>Libros</h2>
+                        <h2 className={'mt-2'}>Libros</h2>
                         <div className='row'>
-                            <div className='col position-static'>
+                            <div className='col'>
                                 {
                                     edicion ?
                                         (<h4 className='mt-5'>Actualizar libro</h4>)
@@ -198,23 +192,38 @@ const Libros = () => {
                             </div>
                             <div className='col'>
                                 <h4 className={'mt-5'}>Lista de libros</h4>
-                                <ul className='list-group'>
+                                <table className='table table-bordered table-hover mt-3'>
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
                                     {
                                         listaLibro.length !== 0 ?
                                             (
                                                 listaLibro.map(item => (
-                                                    <li className='list-group-item' key={item.id}> {item.nombre} {item.precio} {item.cantidad}
-                                                        <button onClick={(id,nombre)=>{BorrarLibro(item.id,item.nombre)}} className='btn btn-dark float-right'>Eliminar</button>
-                                                        <button onClick={(id)=>{Actualizar(item.id)}} className='btn btn-dark float-right mr-3'>Actualizar</button>
-                                                    </li>
+                                                    <tbody key={item.id}>
+                                                        <tr>
+                                                            <td>{item.nombre}</td>
+                                                            <td>{item.precio}</td>
+                                                            <td>{item.cantidad}</td>
+                                                            <td align={'center'}>
+                                                                <button onClick={(id,nombre)=>{BorrarLibro(item.id,item.nombre)}} className='btn btn-dark'>Eliminar</button>
+                                                                <button onClick={(id)=>{Actualizar(item.id)}} className='btn btn-dark ml-3'>Actualizar</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
                                                 ))
                                             )
                                             :
                                             (
-                                                <span>No hay libros que mostrar</span>
+                                                <td>No hay libros que mostrar</td>
                                             )
                                     }
-                                </ul>
+                                </table>
                             </div>
                         </div>
                     </div>

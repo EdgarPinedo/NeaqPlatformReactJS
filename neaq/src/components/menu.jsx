@@ -22,7 +22,7 @@ const Menu = () => {
     return (
         <div>
             <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
-                <u1 className='navbar-nav mr-auto'>
+                <nav className='navbar-nav mr-auto'>
                     <li className='nav-item'>
                         <Link className='nav-link' to='/'>Inicio</Link>
                     </li>
@@ -30,7 +30,7 @@ const Menu = () => {
                         {
                             usuario === "edgarpinedo122@hotmail.com" ?
                                 (
-                                    <Link className='nav-link' to='/admin'>Admin</Link>
+                                    <Link className='nav-link' to='/admin/libros'>Admin</Link>
                                 )
                                 :
                                 (
@@ -38,7 +38,7 @@ const Menu = () => {
                                 )
                         }
                     </li>
-                </u1>
+                </nav>
                 {
                     !usuario ?
                         (
