@@ -8,10 +8,9 @@ function Admin() {
     return (
         <div className='mt-5'>
             <h2 align={'center'}>Administración</h2>
-            <div className='container mt-5'>
                 <Router>
-                    <div align={'center'} className='form-group bg-dark'>
-                        <form className='form-group mr-auto'>
+                    <div align={'center'} className='form-group bg-dark mt-5'>
+                        <form className='form-group'>
                             <Link className='btn btn-dark mt-auto' to='/admin/libros'>Libros</Link>
                             <Link className='btn btn-dark mt-auto' to='/admin/clientes'>Clientes</Link>
                             <Link className='btn btn-dark mt-auto' to='/admin/registros'>Registros</Link>
@@ -23,7 +22,6 @@ function Admin() {
                         <Route path='/admin/registros' component={Registros}></Route>
                     </Switch>
                 </Router>
-            </div>
         </div>
     )
 }

@@ -11,6 +11,7 @@ const Libros = () => {
     const [listaLibro, setListaLibros] = useState('')
     const [error, setError] = useState('')
     const [imagen, setImagen] = useState()
+    const [url,setUrl] = useState('')
 
     useEffect(() => {
         const getLibros = async () => {
@@ -33,7 +34,8 @@ const Libros = () => {
             const libro = {
                 nombre:nombreLib,
                 precio:precioLib,
-                cantidad:cantidadLib
+                cantidad:cantidadLib,
+                url:url
             }
             try{
                 await store.collection('libros').add(libro)
@@ -92,7 +94,8 @@ const Libros = () => {
         const libroUpdate = {
             nombre:nombreLib,
             precio:precioLib,
-            cantidad:cantidadLib
+            cantidad:cantidadLib,
+            url: url
         }
         try{
             await store.collection('libros').doc(idLibro).set(libroUpdate)
@@ -114,119 +117,119 @@ const Libros = () => {
 
 
     return (
-        <div className='mt-5'>
-            <div className='container mt-5'>
-                <div className='row'>
-                    <div className='col'>
-                        <h2 className={'mt-2'}>Libros</h2>
-                        <div className='row'>
-                            <div className='col'>
-                                {
-                                    edicion ?
-                                        (<h4 className='mt-5'>Actualizar libro</h4>)
-                                        :
-                                        (<h4 className='mt-5'>Agregar libro</h4>)
-                                }
-                                <form onSubmit={edicion ? setActualizar : setLibros} className='form-group mr-5'>
-                                    <input
-                                        value={nombreLib}
-                                        onChange={(e) => {setNombreLib(e.target.value)}}
-                                        className='form-control mt-3'
-                                        placeholder="Introduce el nombre del libro"
-                                        type="text"
-                                    />
-                                    <input
-                                        value={precioLib}
-                                        onChange={(e) => {setPrecioLib(e.target.value)}}
-                                        className='form-control mt-3'
-                                        placeholder="Introduce el precio del libro"
-                                        type="number"
-                                    />
-                                    <input
-                                        value={cantidadLib}
-                                        onChange={(e) => {setCantidadLib(e.target.value)}}
-                                        className='form-control mt-3'
-                                        placeholder="Introduce la cantidad de copias del libro"
-                                        type="number"
-                                    />
-                                    <div className='content-modal mt-3'>
-                                        <header>
-                                            <input
-                                                type='file'
-                                                name='imagen'
-                                                onChange={ObtenerImagen}
-                                            />
-                                        </header>
-                                    </div>
-                                    {
-                                        edicion ?
-                                            (
-                                                <input
-                                                    type='submit'
-                                                    value='Actualizar'
-                                                    className='btn btn-dark btn-block mt-3'
-                                                />
-                                            )
-                                            :
-                                            (
-                                                <input
-                                                    type='submit'
-                                                    value='Agregar'
-                                                    className='btn btn-dark btn-block mt-3'
-                                                />
-                                            )
-                                    }
-                                </form>
-                                {
-                                    error ?
-                                        (
-                                            <div className='alert alert-danger mt-3 mr-5'>
-                                                {error}
-                                            </div>
-                                        )
-                                        :
-                                        (
-                                            <span></span>
-                                        )
-                                }
-                            </div>
-                            <div className='col'>
-                                <h4 className={'mt-5'}>Lista de libros</h4>
-                                <table className='table table-bordered table-hover mt-3'>
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    {
-                                        listaLibro.length !== 0 ?
-                                            (
-                                                listaLibro.map(item => (
-                                                    <tbody key={item.id}>
-                                                        <tr>
-                                                            <td>{item.nombre}</td>
-                                                            <td>{item.precio}</td>
-                                                            <td>{item.cantidad}</td>
-                                                            <td align={'center'}>
-                                                                <button onClick={(id,nombre)=>{BorrarLibro(item.id,item.nombre)}} className='btn btn-dark'>Eliminar</button>
-                                                                <button onClick={(id)=>{Actualizar(item.id)}} className='btn btn-dark ml-3'>Actualizar</button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                ))
-                                            )
-                                            :
-                                            (
-                                                <td>No hay libros que mostrar</td>
-                                            )
-                                    }
-                                </table>
-                            </div>
+        <div>
+            <h2 className={'mt-5 ml-5'}>Libros</h2>
+            <div className='row ml-5 mr-5'>
+                <div className='col'>
+                    {
+                        edicion ?
+                            (<h4 className='mt-5'>Actualizar libro</h4>)
+                            :
+                            (<h4 className='mt-5'>Agregar libro</h4>)
+                    }
+                    <form onSubmit={edicion ? setActualizar : setLibros} className='form-group mr-5'>
+                        <input
+                            value={nombreLib}
+                            onChange={(e) => {setNombreLib(e.target.value)}}
+                            className='form-control mt-3'
+                            placeholder="Introduce el nombre del libro"
+                            type="text"
+                        />
+                        <input
+                            value={precioLib}
+                            onChange={(e) => {setPrecioLib(e.target.value)}}
+                            className='form-control mt-3'
+                            placeholder="Introduce el precio del libro"
+                            type="number"
+                        />
+                        <input
+                            value={cantidadLib}
+                            onChange={(e) => {setCantidadLib(e.target.value)}}
+                            className='form-control mt-3'
+                            placeholder="Introduce la cantidad de copias del libro"
+                            type="number"
+                        />
+                        <div className='content-modal mt-3'>
+                            <header>
+                                <input
+                                    type='file'
+                                    name='imagen'
+                                    onChange={ObtenerImagen}
+                                />
+                            </header>
                         </div>
-                    </div>
+                        {
+                            edicion ?
+                                (
+                                    <input
+                                        type='submit'
+                                        value='Actualizar'
+                                        className='btn btn-dark btn-block mt-3'
+                                    />
+                                )
+                                :
+                                (
+                                    <input
+                                        type='submit'
+                                        value='Agregar'
+                                        className='btn btn-dark btn-block mt-3'
+                                    />
+                                )
+                        }
+                    </form>
+                    {
+                        error ?
+                            (
+                                <div className='alert alert-danger mt-3 mr-5'>
+                                    {error}
+                                </div>
+                            )
+                            :
+                            (
+                                <span></span>
+                            )
+                    }
+                </div>
+                <div className='container'>
+                    <h4 className={'mt-5'}>Lista de libros</h4>
+                    <table className='table table-bordered table-hover mt-3'>
+                            <thead>
+                                <tr>
+                                    <th className='bg-dark text-white'>Nombre</th>
+                                    <th className='bg-dark text-white'>Precio</th>
+                                    <th className='bg-dark text-white'>Cantidad</th>
+                                    <th className='bg-dark text-white'>Acciones</th>
+                                </tr>
+                            </thead>
+                            {
+                                listaLibro.length !== 0 ?
+                                    (
+                                        listaLibro.map(item => (
+                                            <tbody key={item.id}>
+                                                <tr>
+                                                    <td>{item.nombre}</td>
+                                                    <td>{item.precio}</td>
+                                                    <td>{item.cantidad}</td>
+                                                    <td align={'center'}>
+                                                        <button onClick={(id,nombre)=>{
+                                                            BorrarLibro(item.id,item.nombre)}}
+                                                            className='btn btn-dark'>Eliminar
+                                                        </button>
+                                                        <button onClick={(id)=>{
+                                                            Actualizar(item.id)}}
+                                                            className='btn btn-dark ml-3'>Actualizar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        ))
+                                    )
+                                    :
+                                    (
+                                        <tbody><tr><td>No hay libros que mostrar</td></tr></tbody>
+                                    )
+                            }
+                    </table>
                 </div>
             </div>
         </div>

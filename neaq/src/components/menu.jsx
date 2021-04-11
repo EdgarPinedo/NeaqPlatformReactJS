@@ -21,10 +21,10 @@ const Menu = () => {
 
     return (
         <div>
-            <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
+            <nav className='navbar navbar-expand-lg navbar-dark' style={{background: '#000000'}}>
                 <nav className='navbar-nav mr-auto'>
                     <li className='nav-item'>
-                        <Link className='nav-link' to='/'>Inicio</Link>
+                        <Link className='nav-link' to='/'>Neaq</Link>
                     </li>
                     <li>
                         {
@@ -53,6 +53,7 @@ const Menu = () => {
                     usuario ?
                         (
                             <button
+                                style={{background: '#000000', color: '#ffffff',}}
                                 onClick={CerrarSesion}
                                 className='btn btn-dark'>
                                 Cerrar sesión</button>
