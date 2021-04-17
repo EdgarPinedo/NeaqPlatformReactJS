@@ -16,12 +16,24 @@ const Pedidos = () => {
 
 
     return (
-        <div>
-            <h2 className={'mt-5 ml-5'}>Pedidos</h2>
+        <div style={{
+            backgroundImage: 'url(https://fondosmil.com/fondo/1720.jpg)',
+            backgroundAttachment: "fixed",
+            minHeight: '94.19vh',
+            display: 'flex',
+            flexDirection: 'column',
+            color:'white',
+        }}>
+            <h2 className={'mt-5'} style={{textAlign:'center', fontSize: '7vh'}}>Pedidos</h2>
             <div className='col ml-5 mr-5' style={{
                 width: '100vh',
             }}>
-                <table className='table table-hover mt-5'>
+                <table className='table table-hover mt-5' style={{
+                    background: 'rgba(0,0,0,0.8)',
+                    color: 'white',
+                    width: '150vh',
+                    marginLeft: '17vh'
+                }}>
                     <thead style={{background: '#000000', color:'white'}}>
                     <tr>
                         <th>Estado</th>

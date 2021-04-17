@@ -34,12 +34,22 @@ const Menu = () => {
                                 )
                                 :
                                 (
-                                    <Link className='nav-link' to='/pedidos'>Pedidos</Link>
+                                    <span></span>
                                 )
                         }
                     </li>
                     <li>
-                        <Link className='nav-link' to='/pedidos'>Pedidos</Link>
+                        {
+                            usuario !== "edgarpinedo122@hotmail.com" && usuario !== null ?
+                                (
+                                    <Link className='nav-link' to='/pedidos'>Pedidos</Link>
+                                )
+                                :
+                                (
+                                    <span></span>
+                                )
+
+                        }
                     </li>
                 </nav>
                 {

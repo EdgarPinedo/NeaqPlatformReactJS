@@ -110,7 +110,7 @@ const Libros = () => {
         setEdicion(false)
         try
         {
-            await galery.ref(`images/${name2}`).delete()
+            //await galery.ref(`images/${name2}`).delete()
             await galery.ref().child(`images/${name2}`).put(imagen)
         }catch (e){}
     }
