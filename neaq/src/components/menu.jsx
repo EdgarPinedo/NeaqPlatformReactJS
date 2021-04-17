@@ -34,9 +34,12 @@ const Menu = () => {
                                 )
                                 :
                                 (
-                                    <span></span>
+                                    <Link className='nav-link' to='/pedidos'>Pedidos</Link>
                                 )
                         }
+                    </li>
+                    <li>
+                        <Link className='nav-link' to='/pedidos'>Pedidos</Link>
                     </li>
                 </nav>
                 {

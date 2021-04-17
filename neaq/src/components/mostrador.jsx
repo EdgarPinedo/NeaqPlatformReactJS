@@ -3,6 +3,7 @@ import {store} from "../dataBase";
 import Product from "./product";
 
 export default function Mostrador(props) {
+    const {onAdd} = props
     const [libros, setLibros] = useState('')
 
     useEffect(() => {
@@ -19,16 +20,17 @@ export default function Mostrador(props) {
         <main style={{
             width: '125vh',
             margin: '20px',
-            display: 'flex',
-            flexDirection: 'row'
+            //display: 'flex',
+            //flexDirection: 'row',
         }}>
-            <div className='row'>
+            <div className='row' style={{
+                justifyContent: 'space-evenly'
+            }}>
                 {
                     libros ?
                         (
                             libros.map(item => (
-                                <Product key={item.id} item={item}
-                                         className='align center'>
+                                <Product key={item.id} item={item} onAdd={onAdd}>
                                 </Product>
                             ))
                         )

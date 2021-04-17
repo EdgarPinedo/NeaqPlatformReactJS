@@ -22,6 +22,7 @@ const Login = () => {
                     setMsgError('La contraseña debe tener 6 caracteres o más')
                 }
             })
+        sessionStorage.setItem('correo',email);
     }
 
     const LoginUsuario = () => {
@@ -34,6 +35,7 @@ const Login = () => {
                     setMsgError('Contraseña incorrecta')
                 }
             })
+        sessionStorage.setItem('correo',email)
     }
 
     return (
@@ -55,12 +57,12 @@ const Login = () => {
                         className='btn btn-dark btn-block mt-4'
                         value='Registrar Usuario'
                         type="submit"/>
-                    <button
-                        onClick={LoginUsuario}
-                        className='btn btn-dark btn-block'>
-                        Iniciar sesión
-                    </button>
                 </form>
+                <button
+                    onClick={LoginUsuario}
+                    className='btn btn-dark btn-block'>
+                    Iniciar sesión
+                </button>
                 {
                     msgerror !== null ?
                         (
@@ -78,5 +80,4 @@ const Login = () => {
         </div>
     )
 }
-
 export default Login

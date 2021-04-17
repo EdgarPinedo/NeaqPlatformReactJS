@@ -17,11 +17,6 @@ a{
     text-decoration: none;
 }
 
-.row {
-    display: flex;
-    justify-content: space-between;
-}
-
 .col-1 {
     flex: 1;
 }

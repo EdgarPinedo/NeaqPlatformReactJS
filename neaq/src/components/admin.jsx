@@ -12,8 +12,8 @@ function Admin() {
                     <div align={'center'} className='form-group bg-dark mt-5'>
                         <form className='form-group'>
                             <Link className='btn btn-dark mt-auto' to='/admin/libros'>Libros</Link>
-                            <Link className='btn btn-dark mt-auto' to='/admin/clientes'>Clientes</Link>
-                            <Link className='btn btn-dark mt-auto' to='/admin/registros'>Registros</Link>
+                            <Link className='btn btn-dark mt-auto' to='/admin/clientes'>Pedidos</Link>
+                            <Link className='btn btn-dark mt-auto' to='/admin/registros'>Proveedores</Link>
                         </form>
                     </div>
                     <Switch>
